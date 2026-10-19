@@ -34,7 +34,8 @@ const outputs = z.object({
   outcome: z.enum(AGENT_OUTCOMES).optional(),
   result: z.record(z.string(), z.unknown()).optional(),
   message: z.string().max(MESSAGE_MAX).optional(),
-  delivered: z.enum(['waiting', 'queued']).optional(),
+  delivered: z.enum(['queued', 'delivered']).optional(),
+  pending: z.string().max(40).optional(),
 })
 
 function checkAgent(node: GraphNode, ctx: KindCheckContext): Problem[] {
@@ -72,7 +73,7 @@ export const agentKind: KindDescriptor = {
   errors: ['Timeout', 'NoResult', 'BadResult', 'AgentGone', 'PromptTooLong'],
   mock: (input: Output) =>
     input.mode === 'message'
-      ? { delivered: 'waiting' }
+      ? { delivered: 'delivered' }
       : { outcome: 'stopped', pane: 'mock', session: 'mock' },
   check: checkAgent,
 }

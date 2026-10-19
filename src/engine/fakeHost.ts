@@ -78,7 +78,7 @@ export function fakeAgentKind(state: FakeHostState): NodeKind {
             ? (ctx.trigger.pane as string | undefined)
             : ctx.started(String(input.to))?.started?.pane
         if (!target) return { done: { outcome: 'closed' } }
-        return { done: { delivered: 'waiting', pane: target } }
+        return { done: { delivered: 'delivered', pane: target } }
       }
       if (input.mode === 'continue' && !ctx.started(String(input.from))?.started?.session) {
         throw new NodeError('AgentGone', `${String(input.from)} recorded no session`)
